@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A Blessing Is On Its Way ✨</title>
+
+<style>
+body {
+    font-family: Georgia, serif;
+    text-align: center;
+    background: linear-gradient(to bottom, #fdfbff, #fffaf2);
+    padding: 40px;
+}
+
+h1 { color: #7b5ea7; }
+
+#countdown {
+    font-size: 1.5em;
+    margin: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 1em;
+    background: #d8b4e2;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+}
+
+#blessingBox {
+    margin-top: 30px;
+    font-size: 1.2em;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    display: none;
+    box-shadow: 0px 0px 20px rgba(200,162,200,0.3);
+}
+
+#letter {
+    margin-top:20px;
+    display:none;
+    font-style:italic;
+    color:#6a4c93;
+    animation: fadeIn 3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+canvas {
+    position: fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+</style>
+</head>
+<body>
+
+<h1>✨ A Blessing Is On Its Way ✨</h1>
+
+<p>Someone far away is praying joy into your days💛</p>
+
+<div id="countdown"></div>
+
+<button onclick="revealBlessing()">Reveal Today's Blessing</button>
+
+<div id="blessingBox"></div>
+
+<div id="letter">
+💌 <br><br>
+<b>Happy Birthday, my love 💛</b><br><br>
+I pray that this 25th year becomes the season where you witness every good and perfect gift God has lovingly prepared for you.<br><br>
+May you always remember that you are far more precious than any jewel.<br><br>
+May you grow in wisdom with each passing day and become the man God has called you to be.<br><br>
+May every sorrow in your heart be transformed into the joy of Heaven.<br><br>
+I love you — always. ✨
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+
+const birthday = new Date("Feb 19, 2026 00:00:00").getTime();
+
+const blessings = [
+{date:"2026-02-15", verse:"God is within you, you will not fall. — Psalm 46:5"},
+{date:"2026-02-16", verse:"The Lord will guide you always. — Isaiah 58:11"},
+{date:"2026-02-17", verse:"The Lord is your strength. — Psalm 28:7"},
+{date:"2026-02-18", verse:"You are chosen and dearly loved. — Colossians 3:12"},
+{date:"2026-02-19", verse:"🎉 May your joy be full and your path blessed!"}
+];
+
+setInterval(()=>{
+    const now = new Date().getTime();
+    const diff = birthday - now;
+    let d=Math.floor(diff/(1000*60*60*24));
+    let h=Math.floor((diff/(1000*60*60))%24);
+    let m=Math.floor((diff/(1000*60))%60);
+    let s=Math.floor((diff/1000)%60);
+    countdown.innerHTML=`⏳ ${d}d ${h}h ${m}m ${s}s until your day of joy`;
+},1000);
+
+function revealBlessing(){
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+    const b = blessings.find(x=>x.date===today);
+    blessingBox.style.display="block";
+
+    if(b){
+        blessingBox.innerHTML="🕊️<br><br>"+b.verse;
+        if(today==="2026-02-19"){
+            letter.style.display="block";
+            startConfetti();
+        }
+    } else {
+        blessingBox.innerHTML="✨ Today's blessing is still being written in heaven ✨";
+    }
+}
+
+// 🎉 Confetti
+function startConfetti(){
+    const canvas=document.getElementById("confetti");
+    const ctx=canvas.getContext("2d");
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    let pieces=[];
+    for(let i=0;i<100;i++){
+        pieces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*6+2,d:Math.random()*50});
+    }
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle="#cfa8ff";
+        pieces.forEach(p=>{
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fill();
+        });
+        update();
+    }
+    function update(){
+        pieces.forEach(p=>{
+            p.y+=1;
+            if(p.y>canvas.height) p.y=0;
+        });
+    }
+    setInterval(draw,20);
+}
+
+</script>
+
+</body>
+</html>
